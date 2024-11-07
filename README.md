@@ -16,7 +16,7 @@ copy and paste the below block into a terminal
 ```
 git clone https://github.com/jpatrick5402/HBIPS.git
 cd EIPS/
-.\setup.bat
+.\win_setup.bat
 ```
 ### Linux (Debian)
 copy and paste the below block into a terminal
@@ -24,7 +24,15 @@ copy and paste the below block into a terminal
 git clone https://github.com/jpatrick5402/HBIPS.git
 cd EIPS/
 chmod +x setup.sh
-./setup.sh
+./deb_setup.sh
+```
+### MacOS
+copy and paste the below block into a terminal
+```
+git clone https://github.com/jpatrick5402/HBIPS.git
+cd EIPS/
+chmod +x setup.sh
+./mac_setup.sh
 ```
 ## Usage
 TBD
