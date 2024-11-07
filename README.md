@@ -1,5 +1,5 @@
 # Host-Based IPS
-_Host-Based Intrusion Detection System_
+_Host-Based Intrusion Prevention System_
 
 ## Goal
 Design, code, and test a custom-made Intrusion Prevention System that is intended to be used on any endpoint platform
