@@ -8,7 +8,7 @@ Design, code, and test a custom-made Intrusion Prevention System that is intende
 C++
 
 ## Dependencies
-PcapPlusPlus - https://pcapplusplus.github.io
+TBD
 
 ## Installation
 ### Windows
@@ -27,7 +27,6 @@ chmod +x setup.sh
 ./setup.sh
 ```
 ## Usage
-
 TBD
 
 ## Resources
