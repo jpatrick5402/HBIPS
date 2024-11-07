@@ -31,5 +31,6 @@ chmod +x setup.sh
 TBD
 
 ## Resources
+- https://github.com/the-tcpdump-group/libpcap
 - https://pcapplusplus.github.io/docs/install
 - https://github.com/fffaraz/awesome-cpp#networking
