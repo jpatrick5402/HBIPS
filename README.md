@@ -11,28 +11,11 @@ C++
 TBD
 
 ## Installation
-### Windows
-copy and paste the below block into a terminal
+### All Platforms
 ```
 git clone https://github.com/jpatrick5402/HBIPS.git
-cd EIPS/
-.\win_setup.bat
-```
-### Linux (Debian)
-copy and paste the below block into a terminal
-```
-git clone https://github.com/jpatrick5402/HBIPS.git
-cd EIPS/
-chmod +x setup.sh
-./deb_setup.sh
-```
-### MacOS
-copy and paste the below block into a terminal
-```
-git clone https://github.com/jpatrick5402/HBIPS.git
-cd EIPS/
-chmod +x setup.sh
-./mac_setup.sh
+cd HBIPS/
+make
 ```
 ## Usage
 TBD
