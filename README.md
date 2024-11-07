@@ -30,9 +30,10 @@ chmod +x setup.sh
 TBD
 
 ## Resources
+- https://github.com/the-tcpdump-group/libpcap
+- https://github.com/nmap/npcap
 - https://npcap.com/guide/npcap-tutorial.html
-- https://github.com/the-tcpdump-group/libpcap Linux/MacOS Packet Capture
-- https://npcap.com Windows Packet Capture
+- https://npcap.com
 - https://github.com/fffaraz/awesome-cpp#networking
 - http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf
 - https://vichargrave.github.io/programming/develop-a-packet-sniffer-with-libpcap/
