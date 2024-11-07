@@ -1,5 +1,5 @@
-# EIPS
-_Endpoint Intrusion Detection System_
+# Host-Based IPS
+_Host-Based Intrusion Detection System_
 
 ## Goal
 Design, code, and test a custom-made Intrusion Prevention System that is intended to be used on any endpoint platform
