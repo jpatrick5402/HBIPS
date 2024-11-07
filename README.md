@@ -14,19 +14,17 @@ PcapPlusPlus - https://pcapplusplus.github.io
 ### Windows
 copy and paste the below block into a terminal
 ```
-git clone https://www.github.com/jpatrick5402/EIPS/
+git clone https://github.com/jpatrick5402/HBIPS.git
 cd EIPS/
 .\setup.bat
-
 ```
 ### Linux/Mac
 copy and paste the below block into a terminal
 ```
-git clone https://www.github.com/jpatrick5402/EIPS/
+git clone https://github.com/jpatrick5402/HBIPS.git
 cd EIPS/
 chmod +x setup.sh
 ./setup.sh
-
 ```
 ## Usage
 
