@@ -2,7 +2,7 @@
 _Host-Based Intrusion Prevention System_
 
 ## Goal
-Design, code, and test a custom-made Intrusion Prevention System that is intended to be used on any endpoint platform
+Design, code, and test a custom-made Intrusion Prevention System
 
 ## Language
 C++
@@ -18,7 +18,7 @@ git clone https://github.com/jpatrick5402/HBIPS.git
 cd EIPS/
 .\setup.bat
 ```
-### Linux/Mac
+### Linux (Debian)
 copy and paste the below block into a terminal
 ```
 git clone https://github.com/jpatrick5402/HBIPS.git
