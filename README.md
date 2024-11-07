@@ -35,3 +35,5 @@ TBD
 - https://npcap.com Windows Packet Capture
 - https://github.com/fffaraz/awesome-cpp#networking
 - http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf
+- https://vichargrave.github.io/programming/develop-a-packet-sniffer-with-libpcap/
+- https://www.devdungeon.com/content/using-libpcap-c
