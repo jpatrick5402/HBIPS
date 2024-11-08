@@ -1,9 +1,3 @@
-UNAME := $(shell uname)
-
-ifeq ($(UNAME), Linux)
-# Linux Setup
-else ifeq ($(UNAME), Windows)
-# Windows Setup
-else ifew ($(UNAME), MacOS)
-# Mac Setup
-endif
+make:
+	g++ src/main.cpp -lpcap -o HBIPS
+	./HBIPS
