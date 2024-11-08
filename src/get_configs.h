@@ -15,6 +15,12 @@ std::unordered_map<std::string, int> get_configs() {
     std::string line;
     std::vector<std::string> options;
 
+    std::ifstream config_file("build/.configuration_items");
+    while (getline(config_file, line)) {
+        options.push_back(line);
+    }
+    config_file.close();
+
     std::cout << "Configuration Menu" << '\n';
     do { // until user confirms their input
         do { // until user gives y or n
@@ -27,17 +33,12 @@ std::unordered_map<std::string, int> get_configs() {
         } while (prior_input[0] != 'y' && prior_input[0] != 'n');
 
         if (prior_input[0] == 'y') {
-            std::ifstream config_file("src/.configuration");
+            std::ifstream config_file("build/.configuration");
             while (getline(config_file, line)) {
                 result_map[line.substr(0,line.find('='))] = stoi(line.substr(line.find('=') + 1, 1));
             }
             config_file.close();
         } else if (prior_input[0] == 'n') {
-            std::ifstream config_file("src/.configuration_items");
-            while (getline(config_file, line)) {
-                options.push_back(line);
-            }
-            config_file.close();
             for (std::string i : options) {
                 do { // until user gives y or n
                     user_input = "";
@@ -53,7 +54,7 @@ std::unordered_map<std::string, int> get_configs() {
                     }
                 } while (user_input[0] != 'y' && user_input[0] != 'n');
             }
-            std::ofstream config_file_out("src/.configuration");
+            std::ofstream config_file_out("build/.configuration");
             for (auto i : result_map) {
                 config_file_out << i.first << "=" << i.second << '\n';
             }
