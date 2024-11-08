@@ -8,7 +8,7 @@ Design, code, and test a custom-made Intrusion Prevention System
 C++
 
 ## Dependencies
-gcc/g++
+g++
 
 ## Installation
 ### All Platforms
