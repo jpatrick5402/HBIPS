@@ -25,8 +25,9 @@ int main (int argc, char *argv[]) {
     cout << "Starting IPS" << '\n';
     while (true) {
         // capture packet
-        // determine if packet/packets are malicious
+        // determine if packet is malicious
         // store packet in a file/log
+        // run through log file to check for repeated attack attempt
         // log results
     }
 
