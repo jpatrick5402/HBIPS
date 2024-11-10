@@ -19,13 +19,14 @@ int main (int argc, char *argv[]) {
     cout << '\n';
     unordered_map<string, int> configs = get_configs(); // choose configuration items
     cout << '\n';
-    // loop through program catpuring packets and reporting issues
+
+    // initialize any processes before starting to loop through traffic
 
     cout << "Starting IPS" << '\n';
     while (true) {
-
-        // capture packets
-        // determine if packets are malicious
+        // capture packet
+        // determine if packet/packets are malicious
+        // store packet in a file/log
         // log results
     }
 
