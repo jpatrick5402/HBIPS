@@ -6,13 +6,16 @@
 #include <netinet/udp.h>
 #include <netinet/ip_icmp.h>
 #include <ctype.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <net/if.h>
+#include <netinet/if_ether.h>
+#include <net/ethernet.h>
+#include <arpa/inet.h>
 
 #include "print_network_devices.h"
-
-#define MAXBYTES2CAPTURE 2048
-
-void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
-void print_help();
+#include "print_help.h"
+#include "process_packet.h"
 
 int main (int argc, char *argv[]) {
     printf(R""""(
@@ -33,9 +36,9 @@ int main (int argc, char *argv[]) {
     // required declarations
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
-    unsigned int temp_null = 0;
-    pcap_if_t * interfaces, * temp;
+    pcap_if_t * interfaces;
 
+    // parse flags for commands
     if (argc < 2) {
         print_help();
         return -1;
@@ -52,9 +55,7 @@ int main (int argc, char *argv[]) {
         return 0;
     }
 
-    // initialize any processes before starting to loop through traffic
-    pcap_init(temp_null, errbuf);
-
+    // initialize any processes before running pcap_loop()
     if (pcap_findalldevs(&interfaces, errbuf) == -1) {
         printf("Error in pcap findall devs\n");
         return -1;
@@ -65,36 +66,16 @@ int main (int argc, char *argv[]) {
     // open device for capture
     pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);
     if (pd == NULL) {
-        fprintf(stderr, "Cant open %s\nMaybe sudo/run as administrator is needed\n", interfaces->name);
+        fprintf(stderr, "Cant open %s\nEnsure you are running as sudo/admin\n", interfaces->name);
         return -1;
     }
 
-    // loop and run process_packet for every packet
+    // loop and run process_packet() for every packet
+    // see process_packet.h for code that runs
     pcap_loop(pd, 0, process_packet, NULL);
 
+    // release the network device so there are no issues
     pcap_freealldevs(interfaces);
 
     return 0;
-}
-
-void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes) {
-
-    for (int i = 0; i < h->len; i++) {
-        if (isprint(bytes[i]))
-            printf("%c ", bytes[i]);
-        else
-            printf(". ");
-    }
-    printf("\n\n\n");
-
-    return;
-}
-
-void print_help() {
-    printf("usage: sudo HBIPS [option]\n");
-    printf("options: \n");
-    printf("-h : display this help screen\n");
-    printf("-f : run this application in foreground\n");
-    printf("-b : run this application in the background\n");
-    printf("-p : print network devices\n");
 }
