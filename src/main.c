@@ -12,6 +12,7 @@
 #define MAXBYTES2CAPTURE 2048
 
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
+void print_help();
 
 int main (int argc, char *argv[]) {
     printf(R""""(
@@ -26,11 +27,19 @@ int main (int argc, char *argv[]) {
 
 )"""");
 
+    // configs
     bool run_in_foreground;
+
+    // required declarations
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
+    unsigned int temp_null = 0;
+    pcap_if_t * interfaces, * temp;
 
-    if (strcmp(argv[1], "-f") == 0) {
+    if (argc < 2) {
+        print_help();
+        return -1;
+    } else if (strcmp(argv[1], "-f") == 0) {
         run_in_foreground = true;
     } else if (strcmp(argv[1], "-b") == 0) {
         run_in_foreground = false;
@@ -39,35 +48,27 @@ int main (int argc, char *argv[]) {
         printf("\n");
         return 0;
     } else {
-        printf("usage: sudo %s [option]\n", argv[0]);
-        printf("options: \n");
-        printf("-h : display this help screen\n");
-        printf("-f : run this application in foreground\n");
-        printf("-b : run this application in the background\n");
-        printf("-p : print network devices\n");
+        print_help();
         return 0;
     }
 
     // initialize any processes before starting to loop through traffic
-    unsigned int temp_null = 0;
     pcap_init(temp_null, errbuf);
 
-    char error[PCAP_ERRBUF_SIZE];
-    pcap_if_t * interfaces, * temp;
-    if (pcap_findalldevs(&interfaces,error) == -1) {
+    if (pcap_findalldevs(&interfaces, errbuf) == -1) {
         printf("Error in pcap findall devs\n");
         return -1;
     }
 
     printf("Starting Host-Based IPS\n");
 
-
     // open device for capture
     pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);
     if (pd == NULL) {
-        fprintf(stderr, "Cant open %s\nMaybe sudo/run as administrator is needed", interfaces->name);
+        fprintf(stderr, "Cant open %s\nMaybe sudo/run as administrator is needed\n", interfaces->name);
         return -1;
     }
+    
     // loop and run process_packet for every packet
     pcap_loop(pd, 0, process_packet, NULL);
 
@@ -87,4 +88,13 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     printf("\n\n\n");
 
     return;
+}
+
+void print_help() {
+    printf("usage: sudo HBIPS [option]\n");
+    printf("options: \n");
+    printf("-h : display this help screen\n");
+    printf("-f : run this application in foreground\n");
+    printf("-b : run this application in the background\n");
+    printf("-p : print network devices\n");
 }
