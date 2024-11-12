@@ -1,22 +1,20 @@
-#include <iostream>
-#include <iomanip>
+#include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include <pcap/pcap.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 #include <netinet/ip_icmp.h>
+#include <ctype.h>
 
 #include "print_network_devices.h"
-#include "get_configs.h"
 
 #define MAXBYTES2CAPTURE 2048
 
-using namespace std;
-
-void process_packet(u_char *arg, const struct pcap_pkthdr* pkthdr, const u_char * packet);
+void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
 
 int main (int argc, char *argv[]) {
-    cout << R""""(
+    printf(R""""(
  /$$   /$$ /$$$$$$$  /$$$$$$ /$$$$$$$   /$$$$$$
 | $$  | $$| $$__  $$|_  $$_/| $$__  $$ /$$__  $$
 | $$  | $$| $$  \ $$  | $$  | $$  \ $$| $$  \__/
@@ -25,12 +23,12 @@ int main (int argc, char *argv[]) {
 | $$  | $$| $$  \ $$  | $$  | $$       /$$  \ $$
 | $$  | $$| $$$$$$$/ /$$$$$$| $$      |  $$$$$$/
 |__/  |__/|_______/ |______/|__/       \______/
-)"""" << '\n';
+
+)"""");
 
     bool run_in_foreground;
     char errbuf[PCAP_ERRBUF_SIZE];
-    int i = 0, count = 0;
-    pcap_t *descr = NULL;
+    pcap_t * pd;
 
     if (strcmp(argv[1], "-f") == 0) {
         run_in_foreground = true;
@@ -38,21 +36,16 @@ int main (int argc, char *argv[]) {
         run_in_foreground = false;
     } else if (strcmp(argv[1], "-p") == 0) {
         print_network_devices();
-        cout << '\n';
+        printf("\n");
         return 0;
     } else {
-        cout << "usage: " << argv[0] << " [option]" << '\n';
-        cout << "options: " << '\n';
-        cout << setw(10) << "-h" << ": display this help screen" << '\n';
-        cout << setw(10) << "-f" << ": run this application in forground" << '\n';
-        cout << setw(10) << "-b" << ": run this application in background" << '\n';
-        cout << setw(10) << "-p" << ": print network devices" << '\n';
+        printf("usage: sudo %s [option]\n", argv[0]);
+        printf("options: \n");
+        printf("-h : display this help screen\n");
+        printf("-f : run this application in foreground\n");
+        printf("-p : print network devices\n");
         return 0;
     }
-
-
-    unordered_map<string, int> configs = get_configs(); // choose configuration items
-    cout << '\n';
 
     // initialize any processes before starting to loop through traffic
     unsigned int temp_null = 0;
@@ -65,32 +58,35 @@ int main (int argc, char *argv[]) {
         return -1;
     }
 
-    cout << "Starting Host-Based IPS" << '\n';
+    printf("Starting Host-Based IPS\n");
+
 
     // open device for capture
-    descr = pcap_open_live(interfaces->name, MAXBYTES2CAPTURE, 1, 512, errbuf);
-    cout << descr << '\n';
-    cout << interfaces->name << '\n';
+    pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);
+    if (pd == NULL) {
+        fprintf(stderr, "Cant open %s\n", interfaces->name);
+        return -1;
+    }
     // loop and run process_packet for every packet
-    pcap_loop(descr, -1, process_packet, (u_char *)&count);
+    pcap_loop(pd, 0, process_packet, NULL);
+
+    pcap_freealldevs(interfaces);
 
     return 0;
 }
 
-void process_packet(u_char *arg, const struct pcap_pkthdr* pkthdr, const u_char * packet) {
-
-    int i = 0, *counter = (int *)arg;
-    printf("Packet Count: %d\n", ++(*counter));
-
-    for (i = 0; i < pkthdr->len; i++) {
-        if (isprint(packet[i]))
-            printf("%c ", packet[i]);
+void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes) {
+    
+    for (int i = 0; i < h->len; i++) {
+        if (isprint(bytes[i]))
+            printf("%c ", bytes[i]);
         else
             printf(". ");
 
-        if ((i % 16 == 0 && i != 0) || i == pkthdr->len - 1)
+        if ((i % 16 == 0 && i != 0) || i == h->len - 1)
             printf("\n");
     }
+    printf("\n\n\n");
 
     return;
 }

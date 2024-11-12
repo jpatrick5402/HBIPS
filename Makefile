@@ -1,3 +1,3 @@
 make:
-	g++ src/main.cpp -lpcap -o HBIPS
+	gcc src/main.c -lpcap -o HBIPS
 	./HBIPS -h
