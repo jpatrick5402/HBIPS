@@ -10,13 +10,6 @@ C++
 ## Dependencies
 g++
 
-## Installation
-### All Platforms
-```
-git clone https://github.com/jpatrick5402/HBIPS.git
-cd HBIPS/
-make
-```
 ## Usage
 TBD
 
