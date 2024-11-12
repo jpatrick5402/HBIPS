@@ -78,7 +78,7 @@ int main (int argc, char *argv[]) {
 }
 
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes) {
-    
+
     for (int i = 0; i < h->len; i++) {
         if (isprint(bytes[i]))
             printf("%c ", bytes[i]);
