@@ -1,5 +1,3 @@
-#include <string.h>
-
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes) {
 
     const struct ether_header* ethernetHeader;
@@ -34,7 +32,6 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
         } else if (ipHeader->ip_p == IPPROTO_ICMP) {
         }
     }
-
 
     printf("TS (%d)\nPort (%d)->(%d)\nIP (", h->ts, sourcePort, destPort);
     for (int i = 0; i < INET_ADDRSTRLEN; i++) {
