@@ -68,7 +68,7 @@ int main (int argc, char *argv[]) {
         fprintf(stderr, "Cant open %s\nMaybe sudo/run as administrator is needed\n", interfaces->name);
         return -1;
     }
-    
+
     // loop and run process_packet for every packet
     pcap_loop(pd, 0, process_packet, NULL);
 
