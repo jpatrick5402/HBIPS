@@ -11,8 +11,14 @@ C++
 g++
 
 ## Usage
-TBD
-
+```
+sudo ./HBIPS [option]
+options:
+-h : display this help screen
+-f : run this application in foreground
+-b : run this application in the background
+-p : print network devices
+```
 ## Resources
 - https://github.com/the-tcpdump-group/libpcap
 - https://github.com/nmap/npcap
