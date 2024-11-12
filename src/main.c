@@ -65,7 +65,7 @@ int main (int argc, char *argv[]) {
     // open device for capture
     pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);
     if (pd == NULL) {
-        fprintf(stderr, "Cant open %s\n", interfaces->name);
+        fprintf(stderr, "Cant open %s\nMaybe sudo/run as administrator is needed", interfaces->name);
         return -1;
     }
     // loop and run process_packet for every packet
@@ -83,9 +83,6 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
             printf("%c ", bytes[i]);
         else
             printf(". ");
-
-        if ((i % 16 == 0 && i != 0) || i == h->len - 1)
-            printf("\n");
     }
     printf("\n\n\n");
 
