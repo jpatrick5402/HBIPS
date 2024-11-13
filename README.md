@@ -7,18 +7,36 @@ Design, code, and test a custom-made Intrusion Prevention System
 ## Language
 C++
 
-## Dependencies
-g++
+## Installation
+### Linux
+pre-requisites
+- gcc
+
+
+setup:
+```
+git clone https://github.com/jpatrick5402/HBIPS.git
+cd HBIPS/
+make
+cp HBIPS /usr/local/bin/
+```
+
+
+If you want this to run on startup, run this command
+`echo "HBIPS -b" >> ~/.bashrc`
+
 
 ## Usage
 ```
-sudo ./HBIPS [option]
+sudo HBIPS [option]
 options:
 -h : display this help screen
 -f : run this application in foreground
 -b : run this application in the background
 -p : print network devices
 ```
+
+
 ## Resources
 - https://github.com/the-tcpdump-group/libpcap
 - https://github.com/nmap/npcap
