@@ -16,9 +16,18 @@ void init_0_ht(HT * t) {
 
 void insert_ht(HT * t, char * s) {
     long int sum = 1;
-    for (int i = 0; i < 16; i++) {
-        sum *= s[i] - '0';
+    int i = 0;
+    while (s[i] != '\0') {
+        sum *= s[i];
+        i++;
     }
     int place = sum % t->m;
-    t->table[place] += 1;
+    if (place < 0) {
+        place *= -1;
+    }
+    if (sum != 1) {
+        t->table[place] += 1;
+    }
+    printf("Hash index: %d\n", place);
+    printf("Hash sum: %d\n", sum);
 }

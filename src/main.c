@@ -128,15 +128,16 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     insert_ht(&IP_table, sourceIP);
 
     // print out the pertainant information about this packet
-    printf("TS (%d)\nPort (%d)->(%d)\nIP (", h->ts, sourcePort, destPort);
+    printf("Unix Time stamp (%d)\n", h->ts);
+    printf("IP (");
     for (int i = 0; i < INET_ADDRSTRLEN; i++) {
         printf("%c", sourceIP[i]);
     }
-    printf(") -> (");
+    printf(":%d)->(", sourcePort);
     for (int i = 0; i < INET_ADDRSTRLEN; i++) {
         printf("%c", destIP[i]);
     }
-    printf("):\n");
+    printf(":%d)\n", destPort);
 
     // print out raw data of packet
     // for (int i = 0; i < h->len; i++) {
@@ -146,12 +147,29 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     //         printf(". ");
     // }
 
-    // print out IP_table
-    // for (int i = 0; i < IP_table.m; i++) {
-    //     printf("%d ", IP_table.table[i]);
-    // }
+    // print out the type of packet
+    printf("TYPE (");
+    if (ipHeader->ip_p) {
+        if (ipHeader->ip_p == IPPROTO_ICMP) {
+            printf("ICMP");
+        } else if (ipHeader->ip_p == IPPROTO_UDP) {
+            printf("UDP");
+        } else if (ipHeader->ip_p == IPPROTO_TCP) {
+            printf("TCP");
+        } else {
+            printf("Unknown");
+        }
+    }
+    printf(")\n");
 
-    printf("\n\n");
+    // print out IP_table
+    for (int i = 0; i < IP_table.m; i++) {
+        if (IP_table.table[i] != 0) {
+            printf("%d %d\n", i, IP_table.table[i]);
+        }
+    }
+
+    printf("\n");
 
     return;
 }
