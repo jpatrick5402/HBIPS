@@ -36,6 +36,7 @@ options:
 -p : print network devices
 ```
 
+**Note: You are free to modify the configuration.txt file to suit your needs, however if you add a '=' char into the file, it will register it as a new config and likely crash
 
 ## Resources
 - https://github.com/the-tcpdump-group/libpcap
