@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <pcap/pcap.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
@@ -18,6 +19,8 @@
 #include "hash_table.h"
 
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
+
+struct hash_table IP_table;
 
 int main (int argc, char *argv[]) {
     printf(R""""(
@@ -39,6 +42,9 @@ int main (int argc, char *argv[]) {
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
     pcap_if_t * interfaces;
+    IP_table.m = 1000;
+    IP_table.table = (int *)malloc(sizeof(int) * IP_table.m);
+    init_0_ht(&IP_table);
 
     // parse flags for commands
     if (argc < 2) {
@@ -118,6 +124,10 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
         }
     }
 
+    // insert the IP address into the hash_table
+    insert_ht(&IP_table, sourceIP);
+
+    // print out the pertainant information about this packet
     printf("TS (%d)\nPort (%d)->(%d)\nIP (", h->ts, sourcePort, destPort);
     for (int i = 0; i < INET_ADDRSTRLEN; i++) {
         printf("%c", sourceIP[i]);
@@ -128,13 +138,20 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     }
     printf("):\n");
 
-    for (int i = 0; i < h->len; i++) {
-        if (isprint(bytes[i]))
-            printf("%c ", bytes[i]);
-        else
-            printf(". ");
-    }
+    // print out raw data of packet
+    // for (int i = 0; i < h->len; i++) {
+    //     if (isprint(bytes[i]))
+    //         printf("%c ", bytes[i]);
+    //     else
+    //         printf(". ");
+    // }
 
-    printf("\n\n\n");
+    // print out IP_table
+    // for (int i = 0; i < IP_table.m; i++) {
+    //     printf("%d ", IP_table.table[i]);
+    // }
+
+    printf("\n\n");
+
     return;
 }
