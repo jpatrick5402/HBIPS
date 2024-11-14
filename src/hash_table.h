@@ -3,7 +3,7 @@
 // where m is the size of the table
 struct hash_table {
     int m;
-    int * table;
+    long int * table;
 };
 
 typedef struct hash_table HT;

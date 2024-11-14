@@ -37,15 +37,12 @@ int main (int argc, char *argv[]) {
 
 )"""");
 
-    // configs
-    bool run_in_foreground;
-
     // required declarations
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
     pcap_if_t * interfaces;
     IP_hash_table.m = 1000000;
-    IP_hash_table.table = (int *)malloc(sizeof(int) * IP_hash_table.m);
+    IP_hash_table.table = (long int *)malloc(sizeof(long int) * IP_hash_table.m);
     init_0_ht(&IP_hash_table);
     IP_addr_table = (char **)malloc(16 * 1000);
     for (int i = 0; i < 1000; i++) {
@@ -53,13 +50,11 @@ int main (int argc, char *argv[]) {
     }
 
     // parse flags for commands
-    if (argc < 2) {
+    if (argc != 2) {
         print_help();
         return -1;
-    } else if (strcmp(argv[1], "-f") == 0) {
-        run_in_foreground = true;
-    } else if (strcmp(argv[1], "-b") == 0) {
-        run_in_foreground = false;
+    } else if (strcmp(argv[1], "-r") == 0) {
+        printf("Starting Host-Based IPS\n");
     } else if (strcmp(argv[1], "-p") == 0) {
         print_network_devices();
         printf("\n");
@@ -75,7 +70,6 @@ int main (int argc, char *argv[]) {
         return -1;
     }
 
-    printf("Starting Host-Based IPS\n");
 
     // open device for capture
     pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);

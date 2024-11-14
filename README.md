@@ -28,12 +28,11 @@ If you want this to run on startup, run this command
 
 ## Usage
 ```
-sudo HBIPS [option]
+HBIPS [option]
 options:
 -h : display this help screen
--f : run this application in foreground
--b : run this application in the background
 -p : print network devices
+-r : run the application
 ```
 
 **Note: You are free to modify the configuration.txt file to suit your needs, however if you add a '=' char into the file, it will register it as a new config and likely crash
