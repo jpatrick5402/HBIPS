@@ -11,6 +11,7 @@ C++
 ### Linux
 pre-requisites
 - gcc
+- libpcap-dev
 
 
 setup:
@@ -22,10 +23,6 @@ cp HBIPS /usr/local/bin/
 ```
 
 
-If you want this to run on startup, run this command
-`echo "HBIPS -b" >> ~/.bashrc`
-
-
 ## Usage
 ```
 HBIPS [option]
@@ -35,7 +32,6 @@ options:
 -r : run the application
 ```
 
-**Note: You are free to modify the configuration.txt file to suit your needs, however if you add a '=' char into the file, it will register it as a new config and likely crash
 
 ## Resources
 - https://github.com/the-tcpdump-group/libpcap
