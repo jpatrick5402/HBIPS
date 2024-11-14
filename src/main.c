@@ -20,7 +20,9 @@
 
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
 
-struct hash_table IP_table;
+struct hash_table IP_hash_table;
+char ** IP_addr_table;
+int IP_addr_table_size = 0;
 
 int main (int argc, char *argv[]) {
     printf(R""""(
@@ -42,9 +44,13 @@ int main (int argc, char *argv[]) {
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
     pcap_if_t * interfaces;
-    IP_table.m = 1000;
-    IP_table.table = (int *)malloc(sizeof(int) * IP_table.m);
-    init_0_ht(&IP_table);
+    IP_hash_table.m = 1000000;
+    IP_hash_table.table = (int *)malloc(sizeof(int) * IP_hash_table.m);
+    init_0_ht(&IP_hash_table);
+    IP_addr_table = (char **)malloc(16 * 1000);
+    for (int i = 0; i < 1000; i++) {
+        IP_addr_table[i] = (char *)malloc(16);
+    }
 
     // parse flags for commands
     if (argc < 2) {
@@ -124,9 +130,6 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
         }
     }
 
-    // insert the IP address into the hash_table
-    insert_ht(&IP_table, sourceIP);
-
     // print out the pertainant information about this packet
     printf("Unix Time stamp (%d)\n", h->ts);
     printf("IP (");
@@ -138,14 +141,6 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
         printf("%c", destIP[i]);
     }
     printf(":%d)\n", destPort);
-
-    // print out raw data of packet
-    // for (int i = 0; i < h->len; i++) {
-    //     if (isprint(bytes[i]))
-    //         printf("%c ", bytes[i]);
-    //     else
-    //         printf(". ");
-    // }
 
     // print out the type of packet
     printf("TYPE (");
@@ -162,11 +157,37 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     }
     printf(")\n");
 
-    // print out IP_table
-    for (int i = 0; i < IP_table.m; i++) {
-        if (IP_table.table[i] != 0) {
-            printf("%d %d\n", i, IP_table.table[i]);
+    int place = get_place(&IP_hash_table, sourceIP);
+    if (IP_hash_table.table[place] == 0 && place != 1) {
+        for (int i = 0; sourceIP[i] != '\0'; i++) {
+            IP_addr_table[IP_addr_table_size][i] = sourceIP[i];
         }
+        IP_addr_table_size++;
+    }
+
+    // insert the IP address into the hash_table
+    insert_ht(&IP_hash_table, sourceIP);
+
+    // print out raw data of packet
+    // for (int i = 0; i < h->len; i++) {
+    //     if (isprint(bytes[i]))
+    //         printf("%c ", bytes[i]);
+    //     else
+    //         printf(". ");
+    // }
+
+    // print out IP_hash_table
+    // for (int i = 0; i < IP_hash_table.m; i++) {
+    //     if (IP_hash_table.table[i] != 0) {
+    //         printf("%d %d\n", i, IP_hash_table.table[i]);
+    //     }
+    // }
+
+    // print out IP address and count of that address
+    printf("%15s Count\n", "Address");
+    for (int i = 0; i < IP_addr_table_size; i++) {
+        place = get_place(&IP_hash_table, IP_addr_table[i]);
+        printf("%15s %d\n", IP_addr_table[i], IP_hash_table.table[place]);
     }
 
     printf("\n");
