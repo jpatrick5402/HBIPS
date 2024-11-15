@@ -163,19 +163,13 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     insert_ht(&IP_hash_table, sourceIP);
 
     // print out raw data of packet
-    // for (int i = 0; i < h->len; i++) {
-    //     if (isprint(bytes[i]))
-    //         printf("%c ", bytes[i]);
-    //     else
-    //         printf(". ");
-    // }
-
-    // print out IP_hash_table
-    // for (int i = 0; i < IP_hash_table.m; i++) {
-    //     if (IP_hash_table.table[i] != 0) {
-    //         printf("%d %d\n", i, IP_hash_table.table[i]);
-    //     }
-    // }
+    for (int i = 0; i < h->len; i++) {
+        if (isprint(bytes[i]))
+            printf("%c ", bytes[i]);
+        else
+            printf(". ");
+    }
+    printf("\n");
 
     // print out IP address and count of that address
     printf("%15s Count\n", "Address");
