@@ -180,6 +180,7 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
 
     printf("\n");
 
+    // write output to output.csv
     FILE * fptr;
     fptr = fopen("output.csv", "w");
     for (int i = 0; i < IP_addr_table_size; i++) {
