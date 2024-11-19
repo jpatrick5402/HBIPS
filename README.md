@@ -5,7 +5,7 @@ _Host-Based Intrusion Prevention System_
 Design, code, and test a custom-made Intrusion Prevention System
 
 ## Language
-C++
+C
 
 ## Installation
 ### Linux
