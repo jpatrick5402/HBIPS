@@ -18,13 +18,20 @@
 #include "print_help.h"
 #include "hash_table.h"
 
+#define HASH_TABLE_MAX_SIZE 1000001
+#define IP_ADDR_TABLE_MAX_SIZE 1000
+
+// function prototypes
 void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * bytes);
 
+// global definitions
 struct hash_table IP_hash_table;
 char ** IP_addr_table;
 int IP_addr_table_size = 0;
 
 int main (int argc, char *argv[]) {
+
+    // print out the app banner
     printf(R""""(
  /$$   /$$ /$$$$$$$  /$$$$$$ /$$$$$$$   /$$$$$$
 | $$  | $$| $$__  $$|_  $$_/| $$__  $$ /$$__  $$
@@ -41,11 +48,11 @@ int main (int argc, char *argv[]) {
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_t * pd;
     pcap_if_t * interfaces;
-    IP_hash_table.m = 1000000;
+    IP_hash_table.m = HASH_TABLE_MAX_SIZE;
     IP_hash_table.table = (long int *)malloc(sizeof(long int) * IP_hash_table.m);
     init_0_ht(&IP_hash_table);
-    IP_addr_table = (char **)malloc(16 * 1000);
-    for (int i = 0; i < 1000; i++) {
+    IP_addr_table = (char **)malloc(16 * IP_ADDR_TABLE_MAX_SIZE);
+    for (int i = 0; i < IP_ADDR_TABLE_MAX_SIZE; i++) {
         IP_addr_table[i] = (char *)malloc(16);
     }
 
@@ -69,7 +76,6 @@ int main (int argc, char *argv[]) {
         printf("Error in pcap findall devs\n");
         return -1;
     }
-
 
     // open device for capture
     pd = pcap_open_live(interfaces->name, 65536, 1, 1000, errbuf);
@@ -151,6 +157,7 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     }
     printf(")\n");
 
+    // insert the sourceIP address into our IP_addr_table
     int place = get_place(&IP_hash_table, sourceIP);
     if (IP_hash_table.table[place] == 0 && place != 1) {
         for (int i = 0; sourceIP[i] != '\0'; i++) {
@@ -183,6 +190,7 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     // write output to output.csv
     FILE * fptr;
     fptr = fopen("output.csv", "w");
+    fprintf(fptr, "IP Address,Connection Count\n");
     for (int i = 0; i < IP_addr_table_size; i++) {
         place = get_place(&IP_hash_table, IP_addr_table[i]);
         fprintf(fptr, "%s,%d\n", IP_addr_table[i], IP_hash_table.table[place]);
