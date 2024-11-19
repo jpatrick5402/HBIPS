@@ -190,7 +190,7 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     // write output to output.csv
     FILE * fptr;
     fptr = fopen("output.csv", "w");
-    fprintf(fptr, "IP Address,Connection Count\n");
+    fprintf(fptr, "IP Address,Packet Count\n");
     for (int i = 0; i < IP_addr_table_size; i++) {
         place = get_place(&IP_hash_table, IP_addr_table[i]);
         fprintf(fptr, "%s,%d\n", IP_addr_table[i], IP_hash_table.table[place]);
