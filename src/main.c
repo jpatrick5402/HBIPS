@@ -142,6 +142,10 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     }
     printf(":%d)\n", destPort);
 
+    if (sourceIP[0] == NULL) {
+        return;
+    }
+
     // print out the type of packet
     printf("TYPE (");
     if (ipHeader->ip_p) {
