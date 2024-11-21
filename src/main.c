@@ -142,7 +142,8 @@ void process_packet(u_char *user, const struct pcap_pkthdr* h, const u_char * by
     }
     printf(":%d)\n", destPort);
 
-    if (sourceIP[0] == NULL) {
+    if (sourceIP[0] == '\0') {
+        printf("\n");
         return;
     }
 
