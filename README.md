@@ -1,11 +1,8 @@
-# Host-Based IPS
-_Host-Based Intrusion Prevention System_
+# Host-Based IDS
+_Host-Based Intrusion Detection System_
 
 ## Goal
-Design, code, and test a custom Host-Based Intrusion Prevention System
-
-## Language
-C
+Design, code, and test a custom Host-Based Intrusion Detection System
 
 ## Installation
 ### Linux
@@ -16,16 +13,16 @@ pre-requisites
 
 setup:
 ```
-git clone https://github.com/jpatrick5402/HIPS.git
-cd HIPS/
+git clone https://github.com/jpatrick5402/HIDS.git
+cd HIDS/
 make
-cp HIPS /usr/local/bin/
+cp HIDS /usr/local/bin/
 ```
 
 
 ## Usage
 ```
-HIPS [option]
+HIDS [option]
 options:
 -h : display this help screen
 -p : print network devices
