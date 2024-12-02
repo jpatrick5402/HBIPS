@@ -2,7 +2,7 @@
 _Host-Based Intrusion Prevention System_
 
 ## Goal
-Design, code, and test a custom-made Intrusion Prevention System
+Design, code, and test a custom Host-Based Intrusion Prevention System
 
 ## Language
 C
@@ -16,16 +16,16 @@ pre-requisites
 
 setup:
 ```
-git clone https://github.com/jpatrick5402/HBIPS.git
-cd HBIPS/
+git clone https://github.com/jpatrick5402/HIPS.git
+cd HIPS/
 make
-cp HBIPS /usr/local/bin/
+cp HIPS /usr/local/bin/
 ```
 
 
 ## Usage
 ```
-HBIPS [option]
+HIPS [option]
 options:
 -h : display this help screen
 -p : print network devices
