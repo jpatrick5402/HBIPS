@@ -1,3 +1,3 @@
 make:
-	gcc src/main.c -lpcap -o HBIPS
-	./HBIPS -h
+	gcc src/main.c -lpcap -o HIPS
+	./HIPS -h
