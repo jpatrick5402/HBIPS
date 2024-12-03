@@ -1,8 +1,8 @@
-# Host-Based IDS
-_Host-Based Intrusion Detection System_
+# Network-Based IDS
+_Network-Based Intrusion Detection System_
 
 ## Goal
-Design, code, and test a custom Host-Based Intrusion Detection System
+Design, code, and test a custom Network-Based Intrusion Detection System
 
 ## Installation
 ### Linux
@@ -13,16 +13,16 @@ pre-requisites
 
 setup:
 ```
-git clone https://github.com/jpatrick5402/HIDS.git
-cd HIDS/
+git clone https://github.com/jpatrick5402/NIDS.git
+cd NIDS/
 make
-cp HIDS /usr/local/bin/
+cp NIDS /usr/local/bin/
 ```
 
 
 ## Usage
 ```
-HIDS [option]
+NIDS [option]
 options:
 -h : display this help screen
 -p : print network devices
